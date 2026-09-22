@@ -1,0 +1,70 @@
+<!--{ "title": "Sample report · Artha Equities", "desc": "A complete sample Portfolio Intelligence Report built entirely from synthetic data. Illustrative data only; not a real client.", "page": "sample", "nav": "sample", "scripts": ["sample.js"] }-->
+    <div class="banner-illus" style="margin-top:var(--header-h)" role="note">Illustrative data. Not a real client. Every name, holding and figure on this page is synthetic.</div>
+    <section class="phero" style="padding-top:clamp(50px,7vw,100px)" aria-labelledby="p-title">
+      <div class="container">
+        <nav class="crumbs" aria-label="Breadcrumb" data-intro><a href="index.html">Home</a><span>/</span><span>Sample report</span></nav>
+        <div class="sec-head sec-head--split" style="margin:22px 0 0">
+          <h1 class="display" id="p-title" data-split="intro">Read it <em>before you order.</em></h1>
+          <div data-intro>
+            <p class="lead" style="margin-bottom:26px">A full Portfolio Intelligence Report, built from a synthetic portfolio. Scroll to open it, then turn the pages.</p>
+            <div class="btn-row"><a href="assets/sample-report.pdf" class="btn btn--primary" data-magnetic target="_blank" rel="noopener"><span class="btn__label" data-roll>Open sample (PDF)</span></a><span class="tag-illus">Illustrative data only</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOOK OPENS ON SCROLL -->
+    <section class="book-open" data-book-open aria-label="Sample report opening">
+      <div class="book-open__pin">
+        <p class="overline book-open__label" style="position:absolute;top:calc(var(--header-h) + 20px);left:var(--gutter)">Scroll to open</p>
+        <div class="spread" data-spread>
+          <div class="spread__left"><div data-rpage="alloc"></div></div>
+          <div class="spread__right"><div data-rpage="sector"></div></div>
+          <div class="spread__cover" data-cover>
+            <div data-rpage="cover"></div>
+            <div class="spread__cover-back"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE VIEWER -->
+    <section class="section bg-white" aria-labelledby="v-title">
+      <div class="container viewer">
+        <div class="sec-head sec-head--split" style="margin-bottom:10px">
+          <div><p class="overline">Page by page</p><h2 class="h2" id="v-title" data-split style="margin-top:18px">Turn <em>the pages.</em></h2></div>
+          <p class="lead" data-reveal>Use the arrows, your keyboard, or drag. Each page is labelled with its section, source and date basis.</p>
+        </div>
+        <div class="viewer__stage" data-viewer data-cursor="Drag" tabindex="0" aria-label="Sample report viewer. Use left and right arrow keys to turn pages." aria-roledescription="carousel">
+          <div data-rpage="cover"></div>
+          <div data-rpage="alloc"></div>
+          <div data-rpage="sector"></div>
+          <div data-rpage="conc"></div>
+          <div data-rpage="obs"></div>
+        </div>
+        <div class="viewer__controls">
+          <div class="viewer__dots" data-dots></div>
+          <p class="mono" data-page-label style="color:var(--sage)">Page 1 of 5 · Cover</p>
+          <div class="pager">
+            <button data-prev aria-label="Previous page"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+            <button data-next aria-label="Next page"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="k-title">
+      <div class="container grid-3">
+        <div class="card" data-reveal data-tilt><span class="icon-circ"><svg viewBox="0 0 24 24"><path d="M4 20V11M10 20V5M16 20v-7M21 20H3"/></svg></span><h3>Charted and dated</h3><p>Every chart states its units, source and the date of the statement it is drawn from.</p></div>
+        <div class="card" data-reveal data-tilt><span class="icon-circ"><svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h10M5 17h6"/></svg></span><h3 id="k-title">Labelled by evidence</h3><p>Observations are marked Observed, Derived or Context, so you know how much weight each can bear.</p></div>
+        <div class="card" data-reveal data-tilt><span class="icon-circ"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg></span><h3>Never advisory</h3><p>No buy, sell or hold calls. No target prices. A description of what you hold, and nothing more.</p></div>
+      </div>
+    </section>
+
+    <section class="section cta bg-white">
+      <div class="container">
+        <h2 class="cta__title" data-split>Yours will be <em>about you.</em></h2>
+        <div class="btn-row"><a href="order.html" class="btn btn--primary" data-magnetic="0.5"><span class="btn__label" data-roll>Order a report</span></a></div>
+        <p class="note-na" style="margin-top:28px">Sample data is illustrative only</p>
+      </div>
+    </section>

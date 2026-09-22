@@ -1,0 +1,129 @@
+<!--{ "title": "Order a report · Artha Equities", "desc": "Order an Artha Equities report: choose, pay, upload your statement and follow every stage.", "page": "order", "nav": "", "noindex": true, "scripts": ["order.js"] }-->
+    <div class="demo-bar" style="margin-top:var(--header-h)" role="note">
+      <div class="container"><span><b>Demo · test mode.</b> Synthetic data only. Nothing you enter or upload leaves your browser.</span><span>Payment, email and review steps are simulated.</span></div>
+    </div>
+    <section class="section" style="padding-top:clamp(40px,6vw,80px)" aria-labelledby="o-title">
+      <div class="container">
+        <div class="sec-head sec-head--split" style="margin-bottom:40px">
+          <div><p class="overline" data-intro>Order</p><h1 class="h1" id="o-title" data-split="intro" style="margin-top:16px">Order <em>a report.</em></h1></div>
+          <ol class="hstepper" data-hstepper aria-label="Order progress" data-intro>
+            <li>Choose</li><li>Details</li><li>Pay</li><li>Upload</li><li>Status</li>
+          </ol>
+        </div>
+
+        <div class="panel-wrap" data-panels>
+          <!-- 1 CHOOSE -->
+          <form class="panel" data-panel="choose" novalidate>
+            <h2>Which report?</h2>
+            <p class="small">Prices come from configuration. You can compare what each includes on its own page.</p>
+            <div class="choose" role="radiogroup" aria-label="Report">
+              <label class="opt"><input type="radio" name="product" value="intelligence" checked><span class="opt__tick"></span><span class="overline overline--plain">Report 01 · Diagnostic</span><span class="opt__name">Portfolio Intelligence Report</span><span class="opt__price" data-price="intelligence">₹—</span><span class="small">PDF report + PPTX slide deck</span></label>
+              <label class="opt"><input type="radio" name="product" value="strategy"><span class="opt__tick"></span><span class="overline overline--plain">Report 02 · Portfolio-level</span><span class="opt__name">Portfolio Strategy Report</span><span class="opt__price" data-opt-strategy-price data-price="strategy">₹—</span><span class="small" data-upgrade-note>PDF report · deck to be confirmed</span></label>
+            </div>
+            <div class="notice notice--info" data-upgrade-banner hidden><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><div><b>Upgrade applied</b>What you paid for the Intelligence Report is deducted from the Strategy Report automatically. No code needed.</div></div>
+            <div class="btn-row" style="margin-top:30px"><button type="submit" class="btn btn--primary"><span class="btn__label">Continue</span><svg class="btn__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 8h13M9 3l5 5-5 5"/></svg></button><span class="note-na">Not investment advice</span></div>
+          </form>
+
+          <!-- 2 DETAILS -->
+          <form class="panel" data-panel="details" novalidate hidden>
+            <h2>Your details</h2>
+            <p class="small">We ask for three things only. All fields are required.</p>
+            <div class="form-grid form-grid--2">
+              <div class="field"><label for="f-name">Full name <small>Required</small></label><input id="f-name" name="name" autocomplete="name" required value="Sample Client"><span class="err">Please enter your name.</span></div>
+              <div class="field"><label for="f-mobile">Mobile number <small>Required</small></label><input id="f-mobile" name="mobile" inputmode="tel" autocomplete="tel" required value="98765 43210"><span class="help">For order updates only.</span><span class="err">Please enter a 10-digit Indian mobile number.</span></div>
+              <div class="field"><label for="f-email">Email <small>Required</small></label><input id="f-email" name="email" type="email" autocomplete="email" required value="sample.client@example.com"><span class="help">Your report link is sent here.</span><span class="err">Please enter a valid email address.</span></div>
+              <div class="field"><label for="f-email2">Confirm email <small>Required</small></label><input id="f-email2" name="email2" type="email" autocomplete="email" required value="sample.client@example.com"><span class="err">The two email addresses do not match.</span></div>
+            </div>
+            <div style="margin-top:24px">
+              <label class="check"><input type="checkbox" name="na" required><span>I understand this report is <b>not investment advice</b>. It does not recommend buying, selling or holding any security.</span></label>
+              <label class="check"><input type="checkbox" name="privacy" required><span>I have read the <a class="link" href="methodology.html#data">privacy notice</a> and consent to my data being used to prepare my report.</span></label>
+              <p class="err-consent notice notice--err" hidden><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span><b>Two confirmations needed</b>Please tick both boxes to continue.</span></p>
+            </div>
+            <div class="disclaimer" style="margin-top:20px"><strong>Disclaimer.</strong> Artha reports are non-advisory diagnostics for information only. <em>Wording pending Artha approval.</em></div>
+            <div class="btn-row" style="margin-top:28px"><button type="button" class="btn btn--ghost" data-back><span class="btn__label">Back</span></button><button type="submit" class="btn btn--primary"><span class="btn__label">Continue to payment</span></button></div>
+          </form>
+
+          <!-- 3 PAY -->
+          <form class="panel" data-panel="pay" novalidate hidden>
+            <h2>Payment</h2>
+            <p class="small">Test mode. Your order is confirmed only when the gateway confirms it to our server, never by this page alone.</p>
+            <div class="pay-methods" role="radiogroup" aria-label="Payment method">
+              <label class="opt"><input type="radio" name="method" value="UPI" checked><svg viewBox="0 0 24 24"><path d="M6 4l6 16M12 4l6 16"/></svg>UPI</label>
+              <label class="opt"><input type="radio" name="method" value="Card"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg>Card</label>
+              <label class="opt"><input type="radio" name="method" value="Netbanking"><svg viewBox="0 0 24 24"><path d="M3 10l9-6 9 6M5 10v8M19 10v8M9 10v8M15 10v8M3 20h18"/></svg>Netbanking</label>
+            </div>
+            <div class="summary" data-summary></div>
+            <div class="notice notice--err" data-pay-fail hidden><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><div><b>Payment not completed</b>Nothing was charged. Your order is saved as "Awaiting payment" and you can try again. No duplicate order will be created.</div></div>
+            <div class="btn-row"><button type="button" class="btn btn--ghost" data-back><span class="btn__label">Back</span></button><button type="submit" class="btn btn--primary" data-pay-btn><span class="btn__label">Pay</span></button><button type="button" class="link" data-pay-simfail style="font-size:14px">Simulate a failed payment</button></div>
+            <div class="log" data-log aria-live="polite" hidden></div>
+          </form>
+
+          <!-- 4 UPLOAD -->
+          <form class="panel" data-panel="upload" novalidate hidden>
+            <h2>Upload your statement</h2>
+            <p class="small">PDF only, up to <span data-maxmb>25</span> MB. You can replace your file until generation starts.</p>
+            <div class="form-grid form-grid--2" style="margin-bottom:22px">
+              <div class="field"><label for="f-doctype">Document type</label><select id="f-doctype" data-doctypes></select><span class="help">The CAS from your depository is preferred.</span></div>
+              <div class="field"><label for="f-pw">PDF password <small>If your file has one</small></label><input id="f-pw" type="password" autocomplete="off" placeholder="Often your PAN in capitals"><span class="help">Used once, in memory. Never stored or logged.</span></div>
+            </div>
+            <label class="drop" data-drop>
+              <input type="file" accept="application/pdf,.pdf" data-file aria-label="Choose a PDF statement">
+              <svg viewBox="0 0 48 48"><path d="M14 6h14l10 10v26H14z"/><path d="M28 6v10h10"/><path d="M26 36V22M20 28l6-6 6 6"/></svg>
+              <b style="color:var(--forest);font-weight:500">Drop your PDF here, or choose a file</b>
+              <span class="small" style="color:#6d6d6d">Encrypted on upload · Used only to prepare your report</span>
+              <div class="drop__file" data-file-row><svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--forest);fill:none;stroke-width:1.5"><path d="M7 3h7l5 5v13H7z"/></svg><span data-file-name>file.pdf</span><span class="drop__bar"><i data-file-bar></i></span><span class="mono" data-file-state>0%</span></div>
+            </label>
+            <div class="notice notice--err" data-up-err hidden><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><div><b data-up-err-title>That file cannot be used</b><span data-up-err-msg></span></div></div>
+            <div class="assure"><span><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Encrypted on upload</span><span><svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>Used only to prepare your report</span><a class="link" href="methodology.html#data">How we handle your data</a></div>
+            <div class="disclaimer"><strong>Disclaimer.</strong> Your report will be a non-advisory diagnostic. It will not recommend buying, selling or holding any security.</div>
+            <div class="btn-row" style="margin-top:26px"><button type="button" class="btn btn--ghost" data-sample-cas><span class="btn__label">Use a synthetic sample CAS</span></button><button type="submit" class="btn btn--primary" data-up-btn disabled><span class="btn__label">Submit securely</span></button></div>
+          </form>
+
+          <!-- 5 STATUS + REVIEW -->
+          <div class="panel" data-panel="status" id="review" hidden>
+            <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:baseline;margin-bottom:26px">
+              <div><h2>Order status</h2><p class="mono" style="color:var(--sage)">Order reference <b style="color:var(--forest)" data-ref>AE-2026-0417</b> · <span data-product-name></span></p></div>
+              <a class="link" href="about.html#contact">Need help? Contact Artha</a>
+            </div>
+            <div class="status-grid">
+              <div>
+                <ol class="vstepper" data-vstepper>
+                  <li data-n="1"><b>Received</b><span>We have your statement and it passed its checks.</span></li>
+                  <li data-n="2"><b>Generating</b><span>Your report is being prepared.</span></li>
+                  <li data-n="3"><b>In review</b><span>Your report is being reviewed by our team.</span></li>
+                  <li data-n="4"><b>Delivered</b><span>Your report is ready to download.</span></li>
+                </ol>
+                <div class="notice notice--info" style="margin-top:26px" data-status-msg aria-live="polite"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><div><b>Received</b>We have your statement. An email has been sent to you.</div></div>
+                <div class="deliver" data-deliver hidden>
+                  <a class="dl" href="assets/sample-report.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></svg><div><b>Report (PDF)</b>Signed link · expires in 72 hours</div><span class="mono">Download</span></a>
+                  <a class="dl" href="assets/sample-report.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg><div><b>Slide deck (PPTX)</b>Placeholder file in this demo</div><span class="mono">Download</span></a>
+                </div>
+              </div>
+              <div class="admin" data-admin>
+                <div class="admin__bar"><b>Artha admin · Review panel</b><span class="chip chip--muted" data-admin-chip style="height:26px">Waiting for draft</span></div>
+                <div class="admin__body">
+                  <p class="small" style="color:#666">Demo of the review gate. Edit the draft below: any restricted wording is flagged live, and approval stays blocked until every match is resolved.</p>
+                  <label class="sr-only" for="draft">Draft text</label>
+                  <textarea id="draft" data-draft disabled>Draft will appear when generation completes.</textarea>
+                  <div class="phrase-out" data-phrase-out aria-live="polite"></div>
+                  <div class="btn-row">
+                    <button class="btn btn--primary btn--sm" data-approve disabled><span class="btn__label">Approve and deliver</span></button>
+                    <button class="btn btn--ghost btn--sm" data-fix disabled><span class="btn__label">Suggest neutral wording</span></button>
+                    <button class="link" data-hold style="font-size:14px" disabled>Put on hold</button>
+                  </div>
+                  <p class="mono" style="color:var(--sage)" data-audit>Audit log: —</p>
+                </div>
+              </div>
+            </div>
+            <div class="upgrade" data-upgrade hidden>
+              <p class="overline">Offer for Intelligence Report clients</p>
+              <h3>Go further with the Strategy Report, <em>for <span data-price-diff>₹—</span>.</em></h3>
+              <p style="color:rgba(247,243,234,.75)">The <span data-paid>₹—</span> you paid is deducted automatically. Offer ends <b data-cd-end style="color:var(--gold)"></b> IST.</p>
+              <div class="countdown" data-countdown aria-live="off"><div><b data-cd-h>12</b><small>Hours</small></div><div><b data-cd-m>00</b><small>Minutes</small></div><div><b data-cd-s>00</b><small>Seconds</small></div></div>
+              <div class="btn-row"><button class="btn btn--gold" data-upgrade-go><span class="btn__label">Order the Strategy Report</span></button><button class="link" data-upgrade-expire style="color:var(--gold);font-size:14px">Demo: skip to the end of the window</button></div>
+            </div>
+            <div class="notice notice--warn" data-upgrade-closed hidden><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16h.01"/></svg><div><b>Upgrade window closed</b>The countdown and offer have been removed. The Strategy Report is now available at its standard price of <span data-price="strategy">₹—</span>. An admin can still honour the discount for this order; the action is logged.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
