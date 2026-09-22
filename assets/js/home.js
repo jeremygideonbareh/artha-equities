@@ -1,7 +1,7 @@
 /* Home page choreography */
 window.ArthaPage = {
   init(A) {
-    const { $, $$, reduce } = A;
+    const { $, $$, reduce, fine } = A;
 
     /* hero pins while the report opens; the copy steps aside */
     if (!reduce) {
@@ -105,6 +105,48 @@ window.ArthaPage = {
       const panel = $('[data-xray-panel]', xr);
       panel.addEventListener('pointermove', e => { const r = panel.getBoundingClientRect(); panel.style.setProperty('--gx', (e.clientX - r.left) + 'px'); panel.style.setProperty('--gy', (e.clientY - r.top) + 'px'); });
     }
+
+
+    /* Chapter I: holdings drift in fog, the story unfolds, everything collapses into one statement */
+    const fog = $('.story-fog');
+    if (fog) {
+      const chips = $$('.fog-chip', fog), lines = $$('.story-lines p', fog), doc = $('.fog-doc', fog), layer = $('.story-fog__chips', fog);
+      const rnd = gsap.utils.random;
+      gsap.set(doc, { xPercent: -50, yPercent: -50 });
+      chips.forEach((c, i) => {
+        const z = rnd(-700, 250), side = i % 2 ? 1 : -1;
+        c.dataset.z = z;
+        gsap.set(c, { xPercent: -50, yPercent: -50, x: side * rnd(innerWidth * 0.08, innerWidth * 0.46), y: rnd(-innerHeight * 0.42, innerHeight * 0.42), z,
+          rotation: rnd(-8, 8), filter: `blur(${Math.max(0, (-z) / 140).toFixed(1)}px)`, opacity: gsap.utils.mapRange(-700, 250, 0.35, 1, z) });
+      });
+      if (reduce) { gsap.set(lines[lines.length - 1], { opacity: 1 }); gsap.set(doc, { opacity: 1 }); }
+      else {
+        const tl = gsap.timeline({ scrollTrigger: { trigger: fog, start: 'top top', end: '+=360%', pin: true, scrub: 1, refreshPriority: 1 } });
+        tl.fromTo(chips, { opacity: 0 }, { opacity: (i, el) => gsap.utils.mapRange(-700, 250, 0.35, 1, +el.dataset.z), stagger: 0.02, duration: 0.6 }, 0)
+          .to(chips, { y: (i, el) => '-=' + (160 + (+el.dataset.z + 700) * 0.35), rotation: '+=6', ease: 'none', duration: 4.2 }, 0)
+          .to('.story-fog__photo img', { scale: 1.18, ease: 'none', duration: 5 }, 0);
+        lines.forEach((l, i) => {
+          tl.fromTo(l, { opacity: 0, y: 50, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.5, ease: 'power2.out' }, 0.05 + i * 1.0);
+          if (i < lines.length - 1) tl.to(l, { opacity: 0, y: -40, filter: 'blur(6px)', duration: 0.4, ease: 'power2.in' }, 0.05 + i * 1.0 + 0.72);
+        });
+        tl.to(chips, { x: 0, y: 0, z: 0, scale: 0.2, rotation: 0, opacity: 0, filter: 'blur(0px)', stagger: { each: 0.03, from: 'random' }, duration: 0.9, ease: 'power3.in' }, 4.2)
+          .to(lines[lines.length - 1], { opacity: 0, y: -30, duration: 0.4 }, 4.3)
+          .fromTo(doc, { opacity: 0, scale: 0.4, rotationX: 50, rotationY: -20 }, { opacity: 1, scale: 1, rotationX: 0, rotationY: 0, duration: 0.9, ease: 'expo.out' }, 4.8)
+          .to({}, { duration: 0.6 });
+        if (fine) {
+          const rx = gsap.quickTo(layer, 'rotationY', { duration: 1.2, ease: 'power3' }), ry = gsap.quickTo(layer, 'rotationX', { duration: 1.2, ease: 'power3' });
+          fog.addEventListener('pointermove', e => { rx((e.clientX / innerWidth - 0.5) * 14); ry((0.5 - e.clientY / innerHeight) * 10); });
+        }
+      }
+    }
+
+    /* Epilogue: the fog lifts off the summit */
+    const summit = $('.summit');
+    if (summit && !reduce) {
+      gsap.timeline({ scrollTrigger: { trigger: summit, start: 'top bottom', end: 'center center', scrub: 1 } })
+        .fromTo('.summit__photo img', { scale: 1.45, filter: 'brightness(.45) saturate(.6)' }, { scale: 1, filter: 'brightness(.95) saturate(1)', ease: 'none' }, 0)
+        .fromTo('.summit__mist', { opacity: 1 }, { opacity: 0, ease: 'power1.in' }, 0);
+    } else if (summit) gsap.set('.summit__mist', { opacity: 0 });
 
     /* orbit */
     if (!reduce) gsap.to('[data-orbit]', { rotation: 180, ease: 'none', transformOrigin: '50% 50%', scrollTrigger: { trigger: '.cta', start: 'top bottom', end: 'bottom top', scrub: true } });

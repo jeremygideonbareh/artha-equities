@@ -171,7 +171,7 @@
         el.classList.add('is-split');
         tween?.kill();
         tween = gsap.from(self.words, {
-          yPercent: 115, rotate: 3, duration: 1.3, stagger: 0.035, delay, ease: 'expo.out',
+          yPercent: 110, rotationX: -80, transformOrigin: '50% 100% -20px', opacity: 0, duration: 1.4, stagger: 0.04, delay, ease: 'expo.out',
           scrollTrigger: scroll ? { trigger: el, start: 'top 88%', once: true } : null,
         });
         return tween;
@@ -242,7 +242,9 @@
     $$('[data-scrub-words]').forEach(el => {
       const s = SplitText.create(el, { type: 'words', wordsClass: 'word' });
       if (reduce) return;
-      gsap.to(s.words, { opacity: 1, stagger: 0.08, ease: 'none', scrollTrigger: { trigger: el, start: 'top 82%', end: 'bottom 50%', scrub: true } });
+      const blur = el.classList.contains('narrate__line');
+      gsap.to(s.words, { opacity: 1, filter: blur ? 'blur(0px)' : 'none', stagger: 0.08, ease: 'none', scrollTrigger: { trigger: el, start: blur ? 'top 88%' : 'top 82%', end: blur ? 'bottom 55%' : 'bottom 50%', scrub: true } });
+      if (blur) gsap.fromTo(el, { y: 60 }, { y: -40, ease: 'none', scrollTrigger: { trigger: el.closest('section'), start: 'top bottom', end: 'bottom top', scrub: true } });
     });
 
     ScrollTrigger.batch('[data-reveal]', {
@@ -316,6 +318,37 @@
     });
   };
 
+  /* ---------- story: chapter pill ---------- */
+  const chapters = () => {
+    const secs = $$('[data-chapter]');
+    if (!secs.length) return;
+    const pill = document.createElement('div');
+    pill.className = 'chapter-pill'; pill.setAttribute('aria-hidden', 'true');
+    pill.innerHTML = '<span class="chapter-pill__n"><span>0</span></span><span class="chapter-pill__t"><small>Chapter</small><b><span>Prologue</span></b></span><span class="chapter-pill__bar"><i></i></span>';
+    document.body.appendChild(pill);
+    const n = $('.chapter-pill__n span', pill), t = $('.chapter-pill__t b span', pill), small = $('.chapter-pill__t small', pill);
+    let cur = null;
+    const set = (sec) => {
+      const num = sec.dataset.chapter, title = sec.dataset.chapterTitle;
+      if (cur === title) return; cur = title;
+      const label = num === '0' ? 'Prologue' : num === '—' ? 'Interlude' : 'Chapter';
+      const swap = () => { n.textContent = num === '0' ? '·' : num; t.textContent = title; small.textContent = label; };
+      if (reduce) return swap();
+      gsap.timeline().to([n, t], { yPercent: -120, opacity: 0, duration: 0.3, ease: 'power2.in' }).add(swap).fromTo([n, t], { yPercent: 120, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.6, ease: 'expo.out' });
+    };
+    secs.forEach(sec => ScrollTrigger.create({ trigger: sec, start: 'top 55%', end: 'bottom 55%', onToggle: s => s.isActive && set(sec) }));
+    ScrollTrigger.create({ start: 200, end: 'max', onToggle: s => pill.classList.toggle('is-on', s.isActive), onUpdate: s => gsap.set('.chapter-pill__bar i', { scaleX: s.progress }) });
+  };
+
+  /* ---------- dark bands unfold from rounded cards ---------- */
+  const unfold = () => {
+    if (reduce) return;
+    $$('.imgrows, .band:not(.isnot-band), .summit, .isnot-band').forEach(sec => {
+      sec.classList.add('unfold');
+      gsap.fromTo(sec, { clipPath: 'inset(0% 5% 0% 5% round 40px)' }, { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'none', scrollTrigger: { trigger: sec, start: 'top bottom', end: 'top 25%', scrub: true } });
+    });
+  };
+
   /* ---------- boot sequence ---------- */
   const intro = () => {
     html.dataset.introDone = '1';
@@ -377,6 +410,8 @@
     buildScroll();
     window.ArthaPage?.init?.(A);
     darkTriggers();
+    chapters();
+    unfold();
     await (html.classList.contains('is-return') ? runCurtainOut() : runLoader());
     intro();
     ScrollTrigger.sort();
