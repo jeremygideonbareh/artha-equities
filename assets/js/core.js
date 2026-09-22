@@ -112,7 +112,7 @@
       gsap.set('.progress i', { scaleX: self.progress });
     },
   });
-  $$('[data-theme="dark"]').forEach(sec => ScrollTrigger.create({
+  const darkTriggers = () => $$('[data-theme="dark"]').forEach(sec => ScrollTrigger.create({
     trigger: sec, start: 'top 38px', end: 'bottom 38px',
     onToggle: s => { darkCount += s.isActive ? 1 : -1; header.classList.toggle('is-dark', darkCount > 0); },
   }));
@@ -217,13 +217,11 @@
     });
     A.hTracks.push({ sec, tween });
     /* velocity skew: panels lean into fast scrolling */
-    const skewTo = items.length ? gsap.quickTo(items, 'skewX', { duration: 0.6, ease: 'power3' }) : () => {};
-    if (items.length) ScrollTrigger.create({ trigger: sec, start: 'top bottom', end: 'bottom top', onUpdate: s => skewTo(gsap.utils.clamp(-6, 6, -s.getVelocity() / 400)) });
-    ScrollTrigger.addEventListener('scrollEnd', () => skewTo(0));
+
     items.forEach(item => {
       gsap.fromTo(item, { rotationY: -18, z: -120, opacity: 0.25, transformPerspective: 1400, transformOrigin: 'left center' }, {
         rotationY: 0, z: 0, opacity: 1, ease: 'none',
-        scrollTrigger: { containerAnimation: tween, trigger: item, start: 'left 100%', end: 'left 62%', scrub: true },
+        scrollTrigger: { containerAnimation: tween, trigger: item, start: 'left 100%', end: 'left 62%', scrub: true, onLeave: () => gsap.set(item, { clearProps: 'transform' }) },
       });
       $$('[data-hs-draw]', item).forEach(p => gsap.from(p, {
         drawSVG: 0, ease: 'none', stagger: 0.1,
@@ -271,6 +269,29 @@
 
     $$('[data-rule]').forEach(el => gsap.from(el, { scaleX: 0, duration: 1.6, ease: 'expo.inOut', scrollTrigger: { trigger: el, start: 'top 92%', once: true } }));
 
+
+    /* photography: clip reveals, parallax, full-bleed band */
+    $$('[data-img-reveal]').forEach(el => {
+      if (reduce) return;
+      const img = $('img', el);
+      gsap.timeline({ scrollTrigger: { trigger: el, start: 'top 88%', once: true } })
+        .to(el, { clipPath: 'inset(0% 0 0 0 round 16px)', duration: 1.5, ease: 'expo.inOut' })
+        .from(img, { scale: 1.35, duration: 2, ease: 'expo.out' }, 0.1);
+    });
+    $$('[data-parallax] img, img[data-parallax]').forEach(img => {
+      if (reduce) return;
+      const host = img.closest('[data-parallax]') === img ? img.parentElement : img.closest('[data-parallax]');
+      gsap.fromTo(img, { yPercent: -9, scale: 1.2 }, { yPercent: 9, scale: 1.2, ease: 'none', scrollTrigger: { trigger: host, start: 'top bottom', end: 'bottom top', scrub: true } });
+    });
+    $$('.photoband').forEach(band => {
+      const frame = $('.photoband__frame', band), img = $('img', frame), txt = $('.photoband__text', band);
+      if (reduce) { gsap.set(frame, { clipPath: 'inset(0% 0% round 0px)' }); return; }
+      gsap.timeline({ scrollTrigger: { trigger: band, start: 'top top', end: 'bottom bottom', scrub: 1 } })
+        .to(frame, { clipPath: 'inset(0% 0% round 0px)', ease: 'none', duration: 1 })
+        .to(img, { scale: 1, ease: 'none', duration: 1 }, 0)
+        .fromTo(txt, { y: 80, opacity: 0.2 }, { y: 0, opacity: 1, ease: 'none', duration: 0.8 }, 0.15);
+    });
+
     $$('[data-marquee]').forEach(marquee);
     $$('[data-hscroll]').forEach(hscroll);
 
@@ -315,15 +336,13 @@
     lenis?.stop();
     A.fromLoader = true;
     const paths = $$('.loader__mark path'), counter = $('.loader__count');
-    const w1 = SplitText.create('.loader__w1', { type: 'chars' }), w2 = SplitText.create('.loader__w2', { type: 'chars' });
     const o = { v: 0 };
     const tl = gsap.timeline({ onComplete: () => { loader.remove(); lenis?.start(); } });
-    tl.from(paths, { drawSVG: 0, duration: 1.5, stagger: 0.14, ease: 'power2.inOut' }, 0)
+    tl.from(paths, { drawSVG: 0, duration: 1.7, ease: 'power2.inOut' }, 0)
       .to(o, { v: 100, duration: 2.3, ease: 'power2.inOut', onUpdate: () => { counter.textContent = String(Math.round(o.v)).padStart(3, '0'); } }, 0)
       .to('.loader__bar i', { scaleX: 1, duration: 2.3, ease: 'power2.inOut' }, 0)
-      .to(paths, { fillOpacity: 1, strokeOpacity: 0, duration: 0.8, stagger: 0.08, ease: 'power2.out' }, 1.2)
-      .from(w1.chars, { yPercent: 110, duration: 1, stagger: 0.04 }, 0.9)
-      .from(w2.chars, { yPercent: 110, duration: 1, stagger: 0.035 }, 1.05)
+      .to(paths, { fillOpacity: 1, strokeOpacity: 0, duration: 0.9, ease: 'power2.out' }, 1.2)
+      .fromTo('.loader__word', { clipPath: 'inset(0 100% 0 0)', x: -20 }, { clipPath: 'inset(0 0% 0 0)', x: 0, duration: 1.4, ease: 'expo.inOut' }, 0.9)
       .from('.loader__tag', { opacity: 0, letterSpacing: '0.7em', duration: 1.4 }, 1.4)
       .to(['.loader__word', '.loader__tag'], { opacity: 0, y: -16, duration: 0.6, ease: 'expo.in', stagger: 0.05 }, 2.3)
       .to('.loader__meta', { opacity: 0, duration: 0.4 }, 2.4)
@@ -332,7 +351,7 @@
         const mark = $('.loader__mark'), target = $('.header .lockup__icon svg');
         if (!target) return;
         const a = mark.getBoundingClientRect(), b = target.getBoundingClientRect();
-        if ($('[data-header]').classList.contains('is-dark')) gsap.to(paths, { fill: '#123C32', duration: 1, delay: 0.3 });
+        if ($('[data-header]').classList.contains('is-dark')) gsap.to(paths, { fill: '#143D33', duration: 1, delay: 0.3 });
         gsap.to(mark, { x: b.left + b.width / 2 - (a.left + a.width / 2), y: b.top + b.height / 2 - (a.top + a.height / 2), scale: b.width / a.width, duration: 1.2, ease: 'expo.inOut' });
       }, 2.5)
       .to('.loader__panel--top', { yPercent: -100, duration: 1.3, ease: 'expo.inOut' }, 3.0)
@@ -351,12 +370,13 @@
   });
 
   const fontsReady = Promise.race([
-    Promise.all(['500 1em Zodiak', 'italic 400 1em Zodiak', '400 1em "General Sans"', '1em Marcellus'].map(f => document.fonts?.load(f).catch(() => {}))).then(() => document.fonts?.ready),
-    new Promise(r => setTimeout(r, 4000)),
+    Promise.all(['600 1em "Clash Display"', '500 1em "Clash Display"', 'italic 700 1em Zodiak', '400 1em "General Sans"', '500 1em "General Sans"'].map(f => document.fonts?.load(f).catch(() => {}))).then(() => document.fonts?.ready),
+    new Promise(r => setTimeout(r, 6000)),
   ]);
   const boot = () => fontsReady.then(async () => {
     buildScroll();
     window.ArthaPage?.init?.(A);
+    darkTriggers();
     await (html.classList.contains('is-return') ? runCurtainOut() : runLoader());
     intro();
     ScrollTrigger.sort();

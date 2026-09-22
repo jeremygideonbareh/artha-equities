@@ -15,7 +15,7 @@ window.ArthaPage = {
           onUpdate: s => { cnt.textContent = String(Math.min(n, Math.round(s.progress * (n - 1)) + 1)).padStart(2, '0'); } } });
         cards.slice(0, -1).forEach((c, i) => {
           const rest = cards.slice(i + 1);
-          tl.to(c, { yPercent: -125, rotation: i % 2 ? 9 : -9, rotationX: 28, opacity: 0, ease: 'power2.in', duration: 1 }, i)
+          tl.to(c, { xPercent: 125, yPercent: -12, rotation: 14, opacity: 0, ease: 'power2.in', duration: 1 }, i)
             .to(rest, { y: (k) => k * 16, scale: (k) => 1 - k * 0.045, rotation: (k) => (k === 0 ? 0 : (k % 2 ? 2 : -2)), ease: 'power2.out', duration: 1 }, i);
           const d = $$('[data-hs-draw]', rest[0]);
           if (d.length) tl.from(d, { drawSVG: 0, duration: 0.8, stagger: 0.08, ease: 'none' }, i + 0.3);

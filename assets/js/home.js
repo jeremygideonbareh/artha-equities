@@ -3,8 +3,14 @@ window.ArthaPage = {
   init(A) {
     const { $, $$, reduce } = A;
 
-    /* hero copy drifts and dissolves as the landscape takes over */
-    if (!reduce) gsap.to('.hero__copy', { yPercent: -18, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom 20%', scrub: true } });
+    /* hero pins while the report opens; the copy steps aside */
+    if (!reduce) {
+      const heroTl = gsap.timeline({ scrollTrigger: { trigger: '.hero', start: 'top top', end: '+=110%', pin: true, scrub: 1, refreshPriority: 2,
+        onUpdate: s => { A.heroProgress = s.progress; } } });
+      heroTl.to('.hero__copy', { yPercent: -14, opacity: 0, ease: 'power1.in', duration: 0.45 }, 0)
+        .to('.hero__meta', { opacity: 0, duration: 0.2 }, 0)
+        .to('[data-hero-photo] img', { scale: 1.12, yPercent: 6, ease: 'none', duration: 1 }, 0);
+    }
 
     /* report fan: stacked pages open into a spread */
     const fan = $('[data-fan]');
@@ -52,7 +58,7 @@ window.ArthaPage = {
     /* X-ray: a live, non-advisory diagnostic of a synthetic portfolio */
     const xr = $('#xray');
     if (xr) {
-      const S = [['Financials', '#C8A96B'], ['Technology', '#7C9186'], ['Energy', '#E4D2A6'], ['Consumer', '#B08A45'], ['Healthcare', '#D9D4C8']];
+      const S = [['Financials', '#DDC07E'], ['Technology', '#F1EEE9'], ['Energy', '#7C9186'], ['Consumer', '#B0703F'], ['Healthcare', '#4F8A76']];
       const w = [31, 22, 14, 12, 7];
       const sl = $('[data-xray-sliders]', xr), lg = $('[data-xray-legend]', xr), dn = $('[data-xray-donut]', xr), obs = $('[data-xray-obs]', xr);
       const R = 80, CIRC = 2 * Math.PI * R;
@@ -82,7 +88,7 @@ window.ArthaPage = {
         const level = hhi < 0.22 ? 'lower' : hhi < 0.35 ? 'moderate' : 'higher';
         const key = [ti, above, level].join('|');
         obs.innerHTML = `<p><b>DERIVED</b><span>${S[ti][0]} is the largest sector, at ${pct[ti].toFixed(1)}% of equity value.</span></p>
-          <p><b>DERIVED</b><span>${above} of ${S.length} sectors each hold 20% or more of the portfolio.</span></p>
+          <p><b>DERIVED</b><span>${above === 0 ? 'No sector holds' : above === 1 ? '1 of ' + S.length + ' sectors holds' : above + ' of ' + S.length + ' sectors each hold'} 20% or more of the portfolio.</span></p>
           <p><b>DERIVED</b><span>Concentration index (HHI) ${hhi.toFixed(2)}: ${level} concentration by this measure.</span></p>
           <p><b>CHECK</b><span>Phrase check: 0 advisory terms. Describes; does not recommend.</span></p>`;
         if (key !== obsKey && !instant && !reduce) gsap.from($$('p', obs), { opacity: 0, x: 14, stagger: 0.05, duration: 0.5 });

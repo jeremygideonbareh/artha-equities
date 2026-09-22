@@ -12,7 +12,6 @@ window.ArthaPage = {
         gsap.timeline({ scrollTrigger: { trigger: sec, start: 'top top', end: 'bottom bottom', scrub: 1 } })
           .fromTo(spread, { rotationX: 55, rotationZ: -18, scale: 0.7, x: '-25%' }, { rotationX: 0, rotationZ: 0, scale: 1, x: '0%', ease: 'none', duration: 1 })
           .to(cover, { rotationY: -180, ease: 'none', duration: 1.2 }, 0.6)
-          .from($$('.spread__left .rpage > *, .spread__right .rpage > *', spread), { opacity: 0, y: 12, stagger: 0.02, ease: 'none', duration: 0.6 }, 1.2)
           .to('.book-open__label', { opacity: 0, duration: 0.3 }, 0.4)
           .to(spread, { scale: 1.06, ease: 'none', duration: 0.6 });
       }

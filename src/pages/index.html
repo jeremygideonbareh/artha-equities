@@ -1,6 +1,7 @@
 <!--{ "title": "Artha Equities · Portfolio intelligence, without the noise", "desc": "Artha Equities is a boutique Indian portfolio-intelligence firm. Share your holdings statement and receive a structured, non-advisory diagnostic report, reviewed by a person before delivery.", "page": "home", "nav": "", "scripts": ["home.js", "hero3d.mjs"] }-->
     <!-- 1 · HERO -->
     <section class="hero" data-theme="dark" aria-labelledby="hero-title">
+      <div class="hero__photo" data-hero-photo aria-hidden="true"><img src="assets/img/photos/peak.jpg" alt="" fetchpriority="high" decoding="async"></div>
       <div class="hero__canvas" data-webgl data-mode="hero" aria-hidden="true"></div>
       <div class="hero__vignette" aria-hidden="true"></div>
       <div class="container">
@@ -45,6 +46,11 @@
           <div class="stat" data-reveal><b><span data-count="100">0</span>%</b>of reports read by a person before release</div>
         </aside>
         <p class="statement" data-scrub-words>We do not tell you what to buy, sell or hold. We show you, precisely, what you already own, <em>and what it is made of.</em></p>
+      </div>
+      <div class="container mosaic">
+        <figure class="ph ph--grade " data-img-reveal data-parallax><img src="assets/img/photos/glasses.jpg" alt="Reading glasses resting on an open book" loading="lazy" decoding="async"><figcaption><span>Fig. 01</span><span>Read carefully</span></figcaption></figure>
+        <figure class="ph ph--grade ph--duo" data-img-reveal data-parallax><img src="assets/img/photos/stepwell-geo.jpg" alt="Geometric steps of an Indian stepwell" loading="lazy" decoding="async"><figcaption><span>Fig. 02</span><span>Structure</span></figcaption></figure>
+        <figure class="ph ph--grade " data-img-reveal data-parallax><img src="assets/img/photos/notebook.jpg" alt="A notebook and pen on a dark desk" loading="lazy" decoding="async"><figcaption><span>Fig. 03</span><span>Noted</span></figcaption></figure>
       </div>
     </section>
 
@@ -107,6 +113,17 @@
         </div>
         <p class="upgrade-line" data-reveal>Received the Intelligence Report? For <b><span data-window>12</span> hours</b> after delivery, the Strategy Report is offered with the amount you paid already deducted.</p>
       </div>
+    </section>
+
+
+    <!-- PHOTO ROWS -->
+    <section class="imgrows" data-theme="dark" aria-labelledby="rows-title">
+      <div class="container imgrows__head">
+        <h2 class="h1" id="rows-title" data-split>A research house,<br><em>not a trading floor.</em></h2>
+        <p class="lead" style="color:rgba(241,238,233,.75);max-width:40ch" data-reveal>Paper, pencils and patience. Our work looks more like a library than a ticker screen, and so do our reports.</p>
+      </div>
+      <div class="imgrow" data-marquee="-1"><figure class="ph ph--grade "><img src="assets/img/photos/library-sm.jpg" alt="A grand reading room lined with books" loading="lazy" decoding="async"></figure><figure class="ph ph--grade ph--tall"><img src="assets/img/photos/writing-sm.jpg" alt="A hand writing notes in a notebook" loading="lazy" decoding="async"></figure><figure class="ph ph--grade "><img src="assets/img/photos/stepwell-sm.jpg" alt="The stepped walls of Chand Baori, Rajasthan" loading="lazy" decoding="async"></figure><figure class="ph ph--grade ph--tall"><img src="assets/img/photos/shelves-sm.jpg" alt="Library shelves" loading="lazy" decoding="async"></figure><figure class="ph ph--grade "><img src="assets/img/photos/baori-sm.jpg" alt="Chand Baori stepwell, Abhaneri" loading="lazy" decoding="async"></figure><figure class="ph ph--grade "><img src="assets/img/photos/deskwindow-sm.jpg" alt="A quiet desk by a window" loading="lazy" decoding="async"></figure><figure class="ph ph--grade ph--tall"><img src="assets/img/photos/pendoc-sm.jpg" alt="A pen resting on a printed document" loading="lazy" decoding="async"></figure></div>
+      <div class="imgrow" data-marquee="1"><figure class="ph ph--grade "><img src="assets/img/photos/hills-sm.jpg" alt="Mist over green hills" loading="lazy" decoding="async"></figure><figure class="ph ph--grade ph--tall"><img src="assets/img/photos/openbook-sm.jpg" alt="An open book with reading glasses" loading="lazy" decoding="async"></figure><figure class="ph ph--grade "><img src="assets/img/photos/kund-sm.jpg" alt="Panna Meena ka Kund, Jaipur" loading="lazy" decoding="async"></figure><figure class="ph ph--grade "><img src="assets/img/photos/plants-sm.jpg" alt="Potted plants on a windowsill" loading="lazy" decoding="async"></figure><figure class="ph ph--grade "><img src="assets/img/photos/letter-sm.jpg" alt="A printed letter on a wooden desk" loading="lazy" decoding="async"></figure><figure class="ph ph--grade ph--tall"><img src="assets/img/photos/coffee-sm.jpg" alt="A notebook and coffee on a desk" loading="lazy" decoding="async"></figure><figure class="ph ph--grade "><img src="assets/img/photos/arches-sm.jpg" alt="Sandstone colonnade at Chand Baori" loading="lazy" decoding="async"></figure><figure class="ph ph--grade "><img src="assets/img/photos/curtain-sm.jpg" alt="Soft light through a curtain" loading="lazy" decoding="async"></figure></div>
     </section>
 
     <!-- 5 · HOW IT WORKS (horizontal) -->
@@ -183,6 +200,18 @@
       </div>
     </section>
 
+
+    <!-- FULL-BLEED PHOTO BAND -->
+    <section class="photoband" aria-labelledby="band-title">
+      <div class="photoband__pin">
+        <div class="photoband__frame"><img src="assets/img/photos/stepwell.jpg" alt="The stepped geometry of Chand Baori, Abhaneri, Rajasthan" loading="lazy" decoding="async"></div>
+        <div class="photoband__text">
+          <h2 id="band-title">Structure is<br><em>the whole story.</em></h2>
+          <p>Every portfolio has an architecture. A report makes it visible: how it is built, where the weight sits, and what holds it together.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- X-RAY (interactive) -->
     <section class="section bg-white" id="xray" aria-labelledby="xray-title">
       <div class="container xray">
@@ -230,6 +259,7 @@
 
     <!-- 7 · METHODOLOGY BAND -->
     <section class="section band" data-theme="dark" aria-labelledby="method-title">
+      <div class="phero__photo" aria-hidden="true" style="opacity:.55"><img src="assets/img/photos/range.jpg" alt="" loading="lazy" data-parallax></div>
       <div class="band__ridge" aria-hidden="true">
         <svg viewBox="0 0 1440 400" preserveAspectRatio="none"><path data-draw d="M0 360 L140 250 L230 300 L360 150 L450 220 L590 80 L700 190 L820 60 L930 170 L1060 110 L1180 220 L1300 140 L1440 240"/><path data-draw class="thin" d="M0 380 L160 300 L280 330 L400 240 L520 290 L660 190 L760 260 L880 170 L1010 250 L1140 200 L1260 280 L1360 230 L1440 280"/></svg>
       </div>
@@ -250,6 +280,8 @@
     <!-- CTA -->
     <section class="section cta" aria-labelledby="cta-title">
       <svg class="cta__orbit" viewBox="0 0 1000 1000" aria-hidden="true" data-orbit><circle cx="500" cy="500" r="300"/><circle cx="500" cy="500" r="400"/><circle cx="500" cy="500" r="490"/><circle class="dot" cx="800" cy="500" r="5"/><circle class="dot" cx="500" cy="100" r="4"/><circle class="dot" cx="10" cy="500" r="3"/></svg>
+      <figure class="ph cta__ph cta__ph--l" data-speed="-0.4" aria-hidden="true"><img src="assets/img/photos/glasses-sm.jpg" alt="" loading="lazy"></figure>
+      <figure class="ph cta__ph cta__ph--r" data-speed="0.5" aria-hidden="true"><img src="assets/img/photos/plants-sm.jpg" alt="" loading="lazy"></figure>
       <div class="container" style="position:relative">
         <p class="overline overline--plain" style="justify-content:center">Begin</p>
         <h2 class="cta__title" data-split style="margin-top:22px">Begin with<br><em>what you hold.</em></h2>
