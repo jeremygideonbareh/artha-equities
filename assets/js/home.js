@@ -48,6 +48,58 @@ window.ArthaPage = {
       render(0);
     }
 
+
+    /* X-ray: a live, non-advisory diagnostic of a synthetic portfolio */
+    const xr = $('#xray');
+    if (xr) {
+      const S = [['Financials', '#C8A96B'], ['Technology', '#7C9186'], ['Energy', '#E4D2A6'], ['Consumer', '#B08A45'], ['Healthcare', '#D9D4C8']];
+      const w = [31, 22, 14, 12, 7];
+      const sl = $('[data-xray-sliders]', xr), lg = $('[data-xray-legend]', xr), dn = $('[data-xray-donut]', xr), obs = $('[data-xray-obs]', xr);
+      const R = 80, CIRC = 2 * Math.PI * R;
+      dn.innerHTML = S.map(([, c]) => `<circle cx="100" cy="100" r="${R}" stroke="${c}" stroke-dasharray="0 ${CIRC}" />`).join('') + `<circle cx="100" cy="100" r="${R - 20}" stroke="rgba(247,243,234,.08)" style="stroke-width:1" />`;
+      const arcs = $$('circle', dn).slice(0, S.length);
+      sl.innerHTML = S.map(([n, c], i) => `<div class="slider"><label for="xr${i}"><i style="background:${c}"></i>${n}</label><input id="xr${i}" type="range" min="0" max="100" value="${w[i]}"><output for="xr${i}">0%</output></div>`).join('');
+      lg.innerHTML = S.map(([n, c]) => `<span><i style="background:${c}"></i>${n}<b>0%</b></span>`).join('');
+      const inputs = $$('input', sl), outs = $$('output', sl), lgv = $$('b', lg);
+      const topEl = $('[data-xray-top]', xr), topName = $('[data-xray-top-name]', xr);
+      const shown = { top: 0 };
+      let obsKey = '';
+      const render = (instant) => {
+        const raw = inputs.map(i => +i.value), sum = raw.reduce((a, b) => a + b, 0) || 1;
+        const pct = raw.map(v => v / sum * 100);
+        let off = 0;
+        pct.forEach((p, i) => {
+          const len = p / 100 * CIRC;
+          gsap.to(arcs[i], { attr: { 'stroke-dasharray': `${Math.max(0, len - 2)} ${CIRC}`, 'stroke-dashoffset': -off }, duration: instant ? 0 : 0.8, ease: 'expo.out' });
+          off += len;
+          outs[i].textContent = p.toFixed(0) + '%'; lgv[i].textContent = p.toFixed(1) + '%';
+          inputs[i].style.setProperty('--p', inputs[i].value + '%');
+        });
+        const ti = pct.indexOf(Math.max(...pct));
+        gsap.to(shown, { top: pct[ti], duration: instant ? 0 : 0.8, ease: 'expo.out', onUpdate: () => { topEl.textContent = shown.top.toFixed(0) + '%'; } });
+        topName.textContent = S[ti][0];
+        const hhi = pct.reduce((a, p) => a + (p / 100) ** 2, 0), above = pct.filter(p => p >= 20).length;
+        const level = hhi < 0.22 ? 'lower' : hhi < 0.35 ? 'moderate' : 'higher';
+        const key = [ti, above, level].join('|');
+        obs.innerHTML = `<p><b>DERIVED</b><span>${S[ti][0]} is the largest sector, at ${pct[ti].toFixed(1)}% of equity value.</span></p>
+          <p><b>DERIVED</b><span>${above} of ${S.length} sectors each hold 20% or more of the portfolio.</span></p>
+          <p><b>DERIVED</b><span>Concentration index (HHI) ${hhi.toFixed(2)}: ${level} concentration by this measure.</span></p>
+          <p><b>CHECK</b><span>Phrase check: 0 advisory terms. Describes; does not recommend.</span></p>`;
+        if (key !== obsKey && !instant && !reduce) gsap.from($$('p', obs), { opacity: 0, x: 14, stagger: 0.05, duration: 0.5 });
+        obsKey = key;
+      };
+      inputs.forEach(i => i.addEventListener('input', () => { $$('[data-xray-presets] button').forEach(b => b.classList.remove('is-on')); render(); }));
+      $$('[data-xray-presets] button').forEach(b => b.addEventListener('click', () => {
+        const v = b.dataset.p.split(',').map(Number);
+        $$('[data-xray-presets] button').forEach(x => x.classList.toggle('is-on', x === b));
+        inputs.forEach((i, k) => { const o = { v: +i.value }; gsap.to(o, { v: v[k], duration: reduce ? 0 : 0.9, ease: 'expo.inOut', onUpdate: () => { i.value = o.v; render(true); }, onComplete: () => render() }); });
+      }));
+      render(true);
+      ScrollTrigger.create({ trigger: xr, start: 'top 70%', once: true, onEnter: () => { arcs.forEach(a => gsap.set(a, { attr: { 'stroke-dasharray': `0 ${CIRC}` } })); render(); } });
+      const panel = $('[data-xray-panel]', xr);
+      panel.addEventListener('pointermove', e => { const r = panel.getBoundingClientRect(); panel.style.setProperty('--gx', (e.clientX - r.left) + 'px'); panel.style.setProperty('--gy', (e.clientY - r.top) + 'px'); });
+    }
+
     /* orbit */
     if (!reduce) gsap.to('[data-orbit]', { rotation: 180, ease: 'none', transformOrigin: '50% 50%', scrollTrigger: { trigger: '.cta', start: 'top bottom', end: 'bottom top', scrub: true } });
   },

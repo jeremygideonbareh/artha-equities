@@ -3,6 +3,33 @@ window.ArthaPage = {
   init(A) {
     const { $, $$, reduce } = A;
 
+    /* the four steps on a 3D ring, turned by scroll */
+    const ringSec = $('[data-ring]');
+    if (ringSec) {
+      const el = $('[data-ring-el]', ringSec), faces = $$('.ring__face', ringSec), num = $('[data-ring-num]'), list = $$('[data-ring-list] li');
+      let cur = -1;
+      const drawn = new Set();
+      const setActive = (i) => {
+        if (i === cur) return; cur = i;
+        num.textContent = '0' + (i + 1);
+        list.forEach((l, k) => l.classList.toggle('is-on', k === i));
+        if (!reduce) gsap.fromTo(num, { yPercent: 50, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.7 });
+        if (!drawn.has(i) && !reduce) { drawn.add(i); gsap.from($$('[data-ring-draw]', faces[i]), { drawSVG: 0, duration: 1.4, stagger: 0.12, ease: 'power2.inOut' }); }
+      };
+      const shade = () => {
+        const r = gsap.getProperty(el, 'rotationY');
+        faces.forEach((f, i) => { const a = Math.abs(i * 36 + r); f.style.opacity = Math.max(0.12, 1 - a / 80).toFixed(3); f.style.filter = `brightness(${Math.max(0.55, 1 - a / 120).toFixed(2)})`; f.style.pointerEvents = a < 18 ? 'auto' : 'none'; });
+      };
+      const setZ = () => gsap.set(el, { z: -faces[0].offsetWidth * 1.5 });
+      setZ(); addEventListener('resize', setZ);
+      gsap.to(el, {
+        rotationY: -108, ease: 'none', onUpdate: shade,
+        scrollTrigger: { trigger: ringSec, pin: true, refreshPriority: 1, start: 'top top', end: '+=260%', scrub: 1, snap: reduce ? false : { snapTo: 1 / 3, duration: 0.7, ease: 'power2.inOut', delay: 0.05 },
+          onUpdate: s => setActive(Math.min(3, Math.round(s.progress * 3))) },
+      });
+      shade(); setActive(0);
+    }
+
     const stack = $('[data-docstack]');
     if (stack) {
       const sheets = $$('.docstack__sheet', stack);

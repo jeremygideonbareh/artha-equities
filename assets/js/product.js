@@ -3,6 +3,28 @@ window.ArthaPage = {
   init(A) {
     const { $, $$, reduce, fine } = A;
 
+    /* what you receive: a stack of cards dealt off one by one */
+    const stack = $('[data-stack]');
+    if (stack) {
+      const cards = $$('.stack__cards .rcard', stack), n = cards.length, cnt = $('[data-stack-n]', stack);
+      const place = (list) => list.forEach((c, k) => gsap.set(c, { zIndex: n - cards.indexOf(c), y: k * 16, scale: 1 - k * 0.045, rotation: k === 0 ? 0 : (k % 2 ? 2 : -2) }));
+      if (reduce) { stack.classList.add('stack--flat'); }
+      else {
+        place(cards);
+        const tl = gsap.timeline({ scrollTrigger: { trigger: stack, pin: true, refreshPriority: 1, start: 'top top', end: '+=' + (n - 1) * 75 + '%', scrub: 1,
+          onUpdate: s => { cnt.textContent = String(Math.min(n, Math.round(s.progress * (n - 1)) + 1)).padStart(2, '0'); } } });
+        cards.slice(0, -1).forEach((c, i) => {
+          const rest = cards.slice(i + 1);
+          tl.to(c, { yPercent: -125, rotation: i % 2 ? 9 : -9, rotationX: 28, opacity: 0, ease: 'power2.in', duration: 1 }, i)
+            .to(rest, { y: (k) => k * 16, scale: (k) => 1 - k * 0.045, rotation: (k) => (k === 0 ? 0 : (k % 2 ? 2 : -2)), ease: 'power2.out', duration: 1 }, i);
+          const d = $$('[data-hs-draw]', rest[0]);
+          if (d.length) tl.from(d, { drawSVG: 0, duration: 0.8, stagger: 0.08, ease: 'none' }, i + 0.3);
+        });
+        const d0 = $$('[data-hs-draw]', cards[0]);
+        if (d0.length) gsap.from(d0, { drawSVG: 0, duration: 1.4, stagger: 0.1, scrollTrigger: { trigger: stack, start: 'top 70%', once: true } });
+      }
+    }
+
     /* 3D report: floats, follows the pointer, turns as you scroll away */
     const stage = $('[data-book-stage]'), book = $('[data-book]');
     if (stage && book && !reduce) {
@@ -41,7 +63,7 @@ window.ArthaPage = {
     /* donut segments grow in horizontal track */
     $$('[data-donut]').forEach((c, i) => {
       const dash = c.getAttribute('stroke-dasharray').split(' ');
-      gsap.fromTo(c, { attr: { 'stroke-dasharray': `0 ${dash[1]}` } }, { attr: { 'stroke-dasharray': dash.join(' ') }, duration: 1.4, delay: i * 0.2, ease: 'expo.out', scrollTrigger: { trigger: c.closest('.rcard'), start: 'top 90%', once: true } });
+      gsap.fromTo(c, { attr: { 'stroke-dasharray': `0 ${dash[1]}` } }, { attr: { 'stroke-dasharray': dash.join(' ') }, duration: 1.4, delay: i * 0.2, ease: 'expo.out', scrollTrigger: { trigger: c.closest('section'), start: 'top 60%', once: true } });
     });
 
     /* report bars in excerpts */

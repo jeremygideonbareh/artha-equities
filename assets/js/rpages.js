@@ -32,6 +32,9 @@
       <table class="rtable"><thead><tr><th>Holding</th><th>Weight</th><th>Sector</th></tr></thead><tbody>
       ${[['Holding 01', '9.8%', 'Fin.'], ['Holding 02', '8.1%', 'Tech.'], ['Holding 03', '7.4%', 'Energy'], ['Holding 04', '6.2%', 'Fin.'], ['Holding 05', '5.9%', 'Cons.'], ['Holding 06', '5.1%', 'Tech.'], ['Holding 07', '4.6%', 'Ind.']].map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}
       </tbody></table>${lines(3)}${stamp}${foot(9)}`,
+    toc: () => `${head('Contents', 2)}<h4>Inside this report</h4>
+      <div style="display:grid;gap:6px;margin-top:6px">${['Allocation', 'Sector exposure', 'Concentration', 'Holdings-level observations', 'Market context', 'Methodology and disclaimer'].map((t, i) => `<div class="rbar" style="grid-template-columns:22px 1fr 24px;border-bottom:1px solid var(--stone);padding-bottom:5px"><span style="font-family:var(--f-mono);color:var(--bronze)">${String(i + 1).padStart(2, '0')}</span><span style="font-size:9px">${t}</span><span>${[3, 6, 9, 14, 18, 22][i]}</span></div>`).join('')}</div>
+      <p style="margin-top:8px">Every finding is labelled Observed, Derived or Context. See the methodology section for sources and limits.</p>${stamp}${foot(2)}`,
     obs: () => `${head('04 · Observations', 14)}<h4>Holdings-level observations</h4>
       <p><b style="color:var(--forest)">Observed.</b> Two holdings share the same parent group, combining to 11.3% of value.</p>
       <p><b style="color:var(--bronze)">Derived.</b> Portfolio-weighted dividend yield on the statement date: 1.4%.</p>

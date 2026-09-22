@@ -10,38 +10,45 @@
       </div>
     </section>
 
-    <!-- STEPS horizontal -->
-    <section class="hs steps" data-theme="dark" data-hscroll aria-label="The four steps" style="background:var(--forest-ink)">
-      <div class="hs__pin">
-        <div class="steps__line" aria-hidden="true"></div>
-        <div class="hs__head"><p class="overline">The four steps</p><p class="hs__count"><b>01</b> / 04</p></div>
-        <div class="hs__track">
-          <article class="step" data-hs-item>
-            <div class="step__art" aria-hidden="true"><svg viewBox="0 0 120 120"><rect data-hs-draw x="14" y="22" width="44" height="60" rx="5"/><rect data-hs-draw x="62" y="38" width="44" height="60" rx="5"/><path data-hs-draw d="M24 40h24M24 50h18M72 56h24M72 66h18"/></svg></div>
+    <!-- STEPS · 3D ring -->
+    <section class="ring-sec" data-theme="dark" data-ring aria-label="The four steps">
+      <div class="ring-sec__pin">
+        <div class="container ring-sec__grid">
+          <div class="ring-sec__side">
+            <p class="overline">The four steps</p>
+            <p class="ring-sec__big"><span data-ring-num>01</span><small>/ 04</small></p>
+            <ol class="ring-sec__list" data-ring-list><li class="is-on">Choose</li><li>Pay</li><li>Upload</li><li>Receive</li></ol>
+            <p class="small" style="color:rgba(247,243,234,.55);margin-top:26px">Scroll to turn</p>
+          </div>
+          <div class="ring-stage" data-cursor="Scroll">
+            <div class="ring" data-ring-el>
+            <div class="ring__face" style="--i:0"><article class="step">
+            <div class="step__art" aria-hidden="true"><svg viewBox="0 0 120 120"><rect data-ring-draw x="14" y="22" width="44" height="60" rx="5"/><rect data-ring-draw x="62" y="38" width="44" height="60" rx="5"/><path data-ring-draw d="M24 40h24M24 50h18M72 56h24M72 66h18"/></svg></div>
             <span class="step__num">01</span>
             <div><h2 class="step__title">Choose your report</h2><p>Compare the two reports side by side. Enter your name, email and mobile number. Nothing else is asked for at this stage.</p></div>
             <span class="step__time">About two minutes</span>
-          </article>
-          <article class="step" data-hs-item>
-            <div class="step__art" aria-hidden="true"><svg viewBox="0 0 120 120"><rect data-hs-draw x="12" y="30" width="96" height="62" rx="8"/><path data-hs-draw d="M12 48h96M24 76h26"/><circle data-hs-draw cx="86" cy="74" r="8"/></svg></div>
+          </article></div>
+            <div class="ring__face" style="--i:1"><article class="step">
+            <div class="step__art" aria-hidden="true"><svg viewBox="0 0 120 120"><rect data-ring-draw x="12" y="30" width="96" height="62" rx="8"/><path data-ring-draw d="M12 48h96M24 76h26"/><circle data-ring-draw cx="86" cy="74" r="8"/></svg></div>
             <span class="step__num">02</span>
             <div><h2 class="step__title">Pay securely</h2><p>Confirm two things: that the report is not investment advice, and that you have read the privacy notice. Then pay by UPI, card or netbanking.</p></div>
             <span class="step__time">Confirmed by the gateway</span>
-          </article>
-          <article class="step" data-hs-item>
-            <div class="step__art" aria-hidden="true"><svg viewBox="0 0 120 120"><path data-hs-draw d="M30 12h40l22 22v74H30z"/><path data-hs-draw d="M70 12v22h22"/><path data-hs-draw d="M61 90V56M48 68l13-13 13 13"/></svg></div>
+          </article></div>
+            <div class="ring__face" style="--i:2"><article class="step">
+            <div class="step__art" aria-hidden="true"><svg viewBox="0 0 120 120"><path data-ring-draw d="M30 12h40l22 22v74H30z"/><path data-ring-draw d="M70 12v22h22"/><path data-ring-draw d="M61 90V56M48 68l13-13 13 13"/></svg></div>
             <span class="step__num">03</span>
             <div><h2 class="step__title">Upload your CAS</h2><p>Drop in your statement PDF. We check it is readable and scan it for malware. You can replace it until generation begins.</p></div>
             <span class="step__time">Encrypted on upload</span>
-          </article>
-          <article class="step step--end" data-hs-item>
-            <div class="step__art" aria-hidden="true"><svg viewBox="0 0 120 120" style="stroke:var(--forest-ink)"><path data-hs-draw d="M20 26h46v70H20z"/><path data-hs-draw d="M66 34h34v54H66"/><path data-hs-draw d="M30 80 L40 64 L48 70 L58 50"/></svg></div>
+          </article></div>
+            <div class="ring__face" style="--i:3"><article class="step step--end">
+            <div class="step__art" aria-hidden="true"><svg viewBox="0 0 120 120" style="stroke:var(--forest-ink)"><path data-ring-draw d="M20 26h46v70H20z"/><path data-ring-draw d="M66 34h34v54H66"/><path data-ring-draw d="M30 80 L40 64 L48 70 L58 50"/></svg></div>
             <span class="step__num" style="-webkit-text-stroke-color:rgba(7,26,21,.45)">04</span>
             <div><h2 class="step__title">Receive and read</h2><p>A reviewer approves the report. You get an email with a link to your status page, where your files wait behind a secure, expiring link.</p></div>
             <span class="step__time" style="color:var(--forest-ink)">Track every stage</span>
-          </article>
+          </article></div>
+            </div>
+          </div>
         </div>
-        <div class="hs__bar"><i></i></div>
       </div>
     </section>
 

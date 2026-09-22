@@ -78,6 +78,38 @@ function makeDeck() {
   const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
 }
 
+function makeInner(kind) {
+  const c = document.createElement('canvas'); c.width = 1024; c.height = 1434;
+  const g = c.getContext('2d');
+  g.fillStyle = '#FBF8F1'; g.fillRect(0, 0, c.width, c.height);
+  g.fillStyle = '#7C9186'; g.font = '500 24px "JetBrains Mono", monospace';
+  g.fillText(kind === 'toc' ? 'CONTENTS' : '01 · ALLOCATION', 80, 110);
+  g.fillStyle = '#D9D4C8'; g.fillRect(80, 135, 864, 2);
+  g.fillStyle = '#123C32'; g.font = '500 70px Zodiak, Georgia, serif';
+  if (kind === 'toc') {
+    g.fillText('Inside this report', 80, 250);
+    ['Allocation', 'Sector exposure', 'Concentration', 'Holdings-level observations', 'Market context', 'Methodology and disclaimer'].forEach((t, i) => {
+      const y = 380 + i * 118;
+      g.fillStyle = '#86652A'; g.font = '500 30px "JetBrains Mono", monospace'; g.fillText(String(i + 1).padStart(2, '0'), 80, y);
+      g.fillStyle = '#252525'; g.font = '400 44px "General Sans", Arial'; g.fillText(t, 170, y);
+      g.fillStyle = '#D9D4C8'; g.fillRect(80, y + 36, 864, 2);
+    });
+  } else {
+    g.fillText('How it is allocated', 80, 250);
+    const segs = [[0.48, '#123C32'], [0.27, '#7C9186'], [0.15, '#C8A96B'], [0.10, '#D9D4C8']];
+    let a = -Math.PI / 2; g.lineWidth = 90;
+    segs.forEach(([v, col]) => { g.beginPath(); g.strokeStyle = col; g.arc(330, 620, 190, a, a + v * Math.PI * 2); g.stroke(); a += v * Math.PI * 2; });
+    ['Large cap  48%', 'Mid cap  27%', 'Small cap  15%', 'Cash and other  10%'].forEach((t, i) => {
+      g.fillStyle = segs[i][1]; g.fillRect(620, 500 + i * 70, 34, 34);
+      g.fillStyle = '#252525'; g.font = '400 34px "General Sans", Arial'; g.fillText(t, 675, 530 + i * 70);
+    });
+    g.fillStyle = '#D9D4C8'; for (let i = 0; i < 6; i++) g.fillRect(80, 930 + i * 46, i % 3 === 2 ? 560 : 864, 12);
+  }
+  g.save(); g.translate(512, 760); g.rotate(-0.42); g.strokeStyle = 'rgba(166,58,43,0.35)'; g.lineWidth = 3; g.strokeRect(-330, -44, 660, 88);
+  g.fillStyle = 'rgba(166,58,43,0.45)'; g.font = '500 34px "JetBrains Mono", monospace'; g.textAlign = 'center'; g.fillText('ILLUSTRATIVE DATA. NOT A REAL CLIENT.', 0, 12); g.restore();
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
+}
+
 function pageEdges(horizontal) {
   const c = document.createElement('canvas'); c.width = 256; c.height = 256; const g = c.getContext('2d');
   g.fillStyle = '#F4EEE1'; g.fillRect(0, 0, 256, 256);
@@ -177,8 +209,18 @@ export function mount(el) {
     const spine = new THREE.MeshStandardMaterial({ color: '#0c2d25', roughness: 0.6 });
     const front = new THREE.MeshStandardMaterial({ map: cover, roughness: 0.45, metalness: 0.05 });
     const back = new THREE.MeshStandardMaterial({ color: '#0E3029', roughness: 0.6 });
-    book = new THREE.Mesh(new THREE.BoxGeometry(3, 4.2, 0.32, 1, 1, 1), [side, spine, top, top, front, back]);
-    group.add(book);
+    // hinged book: page block + back board + cover on a spine pivot
+    book = new THREE.Group(); group.add(book);
+    const pageMat = new THREE.MeshStandardMaterial({ map: makeInner('page'), roughness: 0.85 });
+    const block = new THREE.Mesh(new THREE.BoxGeometry(2.92, 4.12, 0.26), [side, spine, top, top, pageMat, back]);
+    book.add(block);
+    const board = new THREE.Mesh(new THREE.BoxGeometry(3, 4.2, 0.04), [spine, spine, spine, spine, back, back]);
+    board.position.z = -0.15; book.add(board);
+    const hinge = new THREE.Group(); hinge.position.set(-1.5, 0, 0.15); book.add(hinge);
+    const innerMat = new THREE.MeshStandardMaterial({ map: makeInner('toc'), roughness: 0.85 });
+    const coverMesh = new THREE.Mesh(new THREE.BoxGeometry(3, 4.2, 0.04), [spine, spine, spine, spine, front, innerMat]);
+    coverMesh.position.x = 1.5; hinge.add(coverMesh);
+    book.userData.hinge = hinge;
     deck = new THREE.Mesh(new THREE.PlaneGeometry(3.3, 2.06), new THREE.MeshStandardMaterial({ map: makeDeck(), roughness: 0.5, side: THREE.DoubleSide }));
     deck.position.set(-1.9, -1.5, -1.4); deck.rotation.set(-0.15, 0.5, 0.1);
     group.add(deck);
@@ -194,9 +236,8 @@ export function mount(el) {
     renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
     if (group) {
       const mobile = w < 900;
-      group.position.set(mobile ? 1.2 : 4.7, mobile ? 5.6 : 2.9, mobile ? -5 : 0.3);
-      group.scale.setScalar(mobile ? 0.5 : 0.95);
-      group.visible = w >= 700;
+      group.userData.base = { x: mobile ? 0 : 4.7, y: mobile ? -7 : 2.9, z: mobile ? -2 : 0.3, mobile };
+      group.scale.setScalar(mobile ? 0.62 : 0.95);
     }
   };
   layout(); addEventListener('resize', layout);
@@ -238,12 +279,16 @@ export function mount(el) {
     camera.lookAt(m.x * 0.6, 1.6 - state.scroll * 1.2, -20);
 
     if (group) {
-      const e = state.enter;
-      group.rotation.y = -0.45 + m.x * 0.35 + state.spin + state.scroll * 1.4;
-      group.rotation.x = 0.08 + m.y * 0.18 - state.scroll * 0.3;
+      const e = state.enter, B = group.userData.base;
+      const open = THREE.MathUtils.smoothstep(state.scroll, 0.04, 0.55);
+      book.userData.hinge.rotation.y = -open * 2.5;
+      group.position.set(B.x - open * (B.mobile ? 0 : 2.4), B.y + (B.mobile ? open * 8.6 : open * 0.3), B.z + open * (B.mobile ? 0 : 0.2) - state.scroll * (B.mobile ? 0 : 2));
+      group.rotation.y = -0.45 + m.x * 0.35 + state.spin + open * 0.55;
+      group.rotation.x = 0.08 + m.y * 0.18 - open * 0.15;
       group.rotation.z = Math.sin(t * 0.5) * 0.03;
-      book.position.y = Math.sin(t * 0.9) * 0.12 + (1 - e) * 6 + state.scroll * 3;
-      deck.position.y = -1.5 + Math.sin(t * 0.9 + 1.2) * 0.16 + (1 - e) * 8 + state.scroll * 1.2;
+      book.position.y = Math.sin(t * 0.9) * 0.12 + (1 - e) * 6;
+      deck.position.y = -1.5 + Math.sin(t * 0.9 + 1.2) * 0.16 + (1 - e) * 8 - open * 3;
+      deck.position.x = -1.9 - open * 1.5;
       deck.rotation.y = 0.5 + Math.sin(t * 0.4) * 0.06;
       group.userData.halo.rotation.z = t * 0.1; group.userData.halo2.rotation.z = -t * 0.06;
       group.userData.halo.material.opacity = 0.35 * e; group.userData.halo2.material.opacity = 0.15 * e;
@@ -253,6 +298,10 @@ export function mount(el) {
   tick();
 }
 
-document.querySelectorAll('[data-webgl]').forEach(el => {
+const fontsIn = Promise.race([
+  Promise.all(['500 116px Zodiak', 'italic 400 84px Zodiak', '400 26px "General Sans"', '500 30px "JetBrains Mono"'].map(f => document.fonts.load(f).catch(() => {}))),
+  new Promise(r => setTimeout(r, 3000)),
+]);
+fontsIn.then(() => document.querySelectorAll('[data-webgl]').forEach(el => {
   try { mount(el); } catch (err) { console.warn('WebGL unavailable', err); el.classList.add('no-webgl'); }
-});
+}));

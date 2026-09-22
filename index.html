@@ -7,6 +7,7 @@
   <meta name="description" content="Artha Equities is a boutique Indian portfolio-intelligence firm. Share your holdings statement and receive a structured, non-advisory diagnostic report, reviewed by a person before delivery.">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#0B2821">
+  <style>html{background:#0B2821}body{margin:0}</style>
   <meta property="og:type" content="website">
   <meta property="og:title" content="Artha Equities · Portfolio intelligence, without the noise">
   <meta property="og:description" content="Artha Equities is a boutique Indian portfolio-intelligence firm. Share your holdings statement and receive a structured, non-advisory diagnostic report, reviewed by a person before delivery.">
@@ -196,7 +197,7 @@
               <h3 class="pcard__name">Portfolio Strategy Report</h3>
             </div>
             <div class="pcard__body">
-              <p>A deeper, portfolio-level study built on the same holdings. <span class="pending">Copy pending Artha approval</span></p>
+              <p>A deeper, portfolio-level study built on the same holdings.</p>
               <div class="pcard__price"><b data-price="strategy">₹—</b><span>Price from configuration · incl. taxes as applicable</span></div>
               <ul class="pcard__list">
                 <li>Everything in the Intelligence Report, taken further</li>
@@ -208,6 +209,7 @@
             <div class="pcard__foot">
               <a href="order.html?p=strategy" class="btn btn--primary" data-magnetic><span class="btn__label" data-roll>Order this report</span></a>
               <a href="strategy-report.html" class="link">What you receive</a>
+              <span class="pending" style="margin:0">Copy pending Artha approval</span>
             </div>
             <div class="pcard__glare"></div>
           </article>
@@ -286,6 +288,29 @@
             <span class="chip chip--hold" data-gate-chip>3 phrases flagged</span>
             <span class="mono" style="color:var(--sage)" data-gate-note>Approval blocked until resolved</span>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- X-RAY (interactive) -->
+    <section class="section bg-white" id="xray" aria-labelledby="xray-title">
+      <div class="container xray">
+        <div>
+          <p class="overline">Try it</p>
+          <h2 class="h2" id="xray-title" data-split style="margin:18px 0 24px">X-ray a <em>sample portfolio.</em></h2>
+          <p class="lead" data-reveal>Move the sector weights of a synthetic portfolio and watch the diagnostic respond. This is the kind of description a report gives: what is there, measured plainly, with no advice attached.</p>
+          <div class="sliders" data-xray-sliders data-reveal></div>
+          <div class="xray__presets" data-xray-presets data-reveal>
+            <button data-p="31,22,14,12,7">Spread</button><button data-p="62,12,8,6,4">Concentrated</button><button data-p="14,58,6,10,12">Technology-heavy</button><button data-p="20,20,20,20,20">Even</button>
+          </div>
+        </div>
+        <div class="xray__panel" data-xray-panel data-reveal="scale" data-tilt>
+          <div class="xray__head"><span>Sample portfolio · synthetic</span><span>Illustrative data</span></div>
+          <div class="xray__top">
+            <div class="xray__donut"><svg viewBox="0 0 200 200" data-xray-donut></svg><b><span data-xray-top>0%</span><small data-xray-top-name>Largest sector</small></b></div>
+            <div class="xray__legend" data-xray-legend></div>
+          </div>
+          <div class="xray__obs" data-xray-obs aria-live="polite"></div>
         </div>
       </div>
     </section>
@@ -383,7 +408,7 @@
       <div class="disclaimer disclaimer--dark" role="note">
         <strong>Disclaimer.</strong> Artha Equities prepares non-advisory portfolio diagnostic reports for information only. Our reports describe what a portfolio holds. They do not recommend buying, selling or holding any security, they contain no target prices, and they are not investment advice. Artha Equities is not registered with any regulator as an investment adviser or research analyst. Please consult a qualified professional before making any investment decision. <em>Disclaimer wording pending Artha and counsel approval.</em>
       </div>
-      <div class="footer__sign" aria-hidden="true"><span data-marquee="-1">Invest better. Live brighter. &nbsp;·&nbsp; Invest better. Live brighter. &nbsp;·&nbsp;</span></div>
+      <div class="footer__sign" aria-hidden="true"><span data-marquee="-1">Research. Clarity. Confidence. &nbsp;·&nbsp; Know what you own. &nbsp;·&nbsp;</span></div>
       <div class="footer__base">
         <span>© 2026 Artha Equities</span>
         <span>Demo build · Copy pending Artha approval · Illustrative data only</span>

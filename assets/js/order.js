@@ -21,7 +21,7 @@ window.ArthaPage = {
         if (!reduce && !instant) gsap.fromTo(to, { opacity: 0, y: 40, rotationX: -6, transformPerspective: 1200, transformOrigin: '50% 0%' }, { opacity: 1, y: 0, rotationX: 0, duration: 0.9, ease: 'expo.out', clearProps: 'transform' });
         const h = to.querySelector('h2'); h?.setAttribute('tabindex', '-1'); h?.focus({ preventScroll: true });
         ScrollTrigger.refresh();
-        A.scrollTo('[data-panels]', { offset: -140 });
+        A.scrollTo('#o-title', { offset: -(parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) + 60) });
       };
       S.step = i;
       if (reduce || instant) return enter();

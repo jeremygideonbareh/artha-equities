@@ -88,7 +88,7 @@
               <h3 class="pcard__name">Portfolio Strategy Report</h3>
             </div>
             <div class="pcard__body">
-              <p>A deeper, portfolio-level study built on the same holdings. <span class="pending">Copy pending Artha approval</span></p>
+              <p>A deeper, portfolio-level study built on the same holdings.</p>
               <div class="pcard__price"><b data-price="strategy">₹—</b><span>Price from configuration · incl. taxes as applicable</span></div>
               <ul class="pcard__list">
                 <li>Everything in the Intelligence Report, taken further</li>
@@ -100,6 +100,7 @@
             <div class="pcard__foot">
               <a href="order.html?p=strategy" class="btn btn--primary" data-magnetic><span class="btn__label" data-roll>Order this report</span></a>
               <a href="strategy-report.html" class="link">What you receive</a>
+              <span class="pending" style="margin:0">Copy pending Artha approval</span>
             </div>
             <div class="pcard__glare"></div>
           </article>
@@ -178,6 +179,29 @@
             <span class="chip chip--hold" data-gate-chip>3 phrases flagged</span>
             <span class="mono" style="color:var(--sage)" data-gate-note>Approval blocked until resolved</span>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- X-RAY (interactive) -->
+    <section class="section bg-white" id="xray" aria-labelledby="xray-title">
+      <div class="container xray">
+        <div>
+          <p class="overline">Try it</p>
+          <h2 class="h2" id="xray-title" data-split style="margin:18px 0 24px">X-ray a <em>sample portfolio.</em></h2>
+          <p class="lead" data-reveal>Move the sector weights of a synthetic portfolio and watch the diagnostic respond. This is the kind of description a report gives: what is there, measured plainly, with no advice attached.</p>
+          <div class="sliders" data-xray-sliders data-reveal></div>
+          <div class="xray__presets" data-xray-presets data-reveal>
+            <button data-p="31,22,14,12,7">Spread</button><button data-p="62,12,8,6,4">Concentrated</button><button data-p="14,58,6,10,12">Technology-heavy</button><button data-p="20,20,20,20,20">Even</button>
+          </div>
+        </div>
+        <div class="xray__panel" data-xray-panel data-reveal="scale" data-tilt>
+          <div class="xray__head"><span>Sample portfolio · synthetic</span><span>Illustrative data</span></div>
+          <div class="xray__top">
+            <div class="xray__donut"><svg viewBox="0 0 200 200" data-xray-donut></svg><b><span data-xray-top>0%</span><small data-xray-top-name>Largest sector</small></b></div>
+            <div class="xray__legend" data-xray-legend></div>
+          </div>
+          <div class="xray__obs" data-xray-obs aria-live="polite"></div>
         </div>
       </div>
     </section>
